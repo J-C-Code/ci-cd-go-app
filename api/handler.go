@@ -5,7 +5,9 @@ import (
 	"net/http"
 )
 
-var tasks []Task
+var tasks []Task = []Task{
+	{ID: 1, Title: "First task!", Description: "This is the first task, this is awesome!", Done: true},
+}
 
 func GetTasks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -18,7 +20,7 @@ func CreateTask(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	newTask.ID = len(tasks) + 1 // Simple ID assignment
+	newTask.ID = len(tasks) + 1
 	tasks = append(tasks, newTask)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newTask)
